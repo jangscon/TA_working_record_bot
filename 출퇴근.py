@@ -10,7 +10,7 @@ from time import sleep
 from datetime import datetime
 import schedule 
 
-from config import WORK_DETAILS, START_TIME, END_TIME, EMAIL_ADDRESS, EMAIL
+from config import WORK_DETAILS, START_TIME, END_TIME
 from mailtest import send_email
 
 def login_and_go_page(driver):
@@ -48,7 +48,7 @@ def login_and_go_page(driver):
     sleep(1)
 
 def go_to_work():
-        try:
+    try:
         # 5 = 출근버튼, 8 = 퇴근버튼, 12 = 근무내용입력칸
         tr_tag = driver.find_element(By.XPATH,'//*[@id="tabContentMain_contents_tabPgmMNU0012812_body_grid02_body_tbody"]')
         columns = tr_tag.find_elements(By.TAG_NAME, "tr")
