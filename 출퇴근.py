@@ -20,8 +20,8 @@ def login_and_go_page(driver):
     username = driver.find_element(By.ID, "idpw_id")  # 아이디 필드 요소 찾기
     password = driver.find_element(By.ID, "idpw_pw")  # 비밀번호 필드 요소 찾기
 
-    username.send_keys("jangscon6568")  # 사용자명 입력
-    password.send_keys("Jangscon6568@")  # 비밀번호 입력
+    username.send_keys("")  # 사용자명 입력
+    password.send_keys("")  # 비밀번호 입력
 
     # 로그인 버튼 클릭
     login_button = driver.find_element(By.ID, "btn-login")  # 로그인 버튼 요소 찾기
@@ -33,7 +33,7 @@ def login_and_go_page(driver):
     
     popup_close = driver.find_element(By.XPATH, '//*[@title="창닫기"]')
     popup_close.click()
-    
+    sleep(1)
 
 
     # 예시로 특정 버튼 클릭
@@ -48,6 +48,9 @@ def login_and_go_page(driver):
     sleep(1)
 
 def go_to_work():
+    driver = webdriver.Chrome()
+
+    login_and_go_page(driver)
     try:
         # 5 = 출근버튼, 8 = 퇴근버튼, 12 = 근무내용입력칸
         tr_tag = driver.find_element(By.XPATH,'//*[@id="tabContentMain_contents_tabPgmMNU0012812_body_grid02_body_tbody"]')
@@ -59,8 +62,17 @@ def go_to_work():
         else:
             column = columns[-1].find_elements(By.TAG_NAME, "td")
 
+        for i in column:
+            if not i.text:
+                print(0,end="")
+            else :
+                print(i.text,end="")
+        print()
         btn = column[5].find_element(By.TAG_NAME, "button")
-        driver.execute_script("arguments[0].click();", btn)
+        print(btn)
+        print(btn.text)
+        #btn.send_keys(Keys.ENTER)
+        #driver.execute_script("arguments[0].click();", btn)
         
     except Exception as e:
         print(f"입력 실패!! / Error: {e}")
@@ -88,7 +100,6 @@ def leave_work():
 
         btn = column[8].find_element(By.TAG_NAME, "button")
         work_details = column[12].find_element(By.TAG_NAME, "input")
-        work_details.send_keys(WORK_DETAILS)
         sleep(2)
         driver.execute_script("arguments[0].click();", btn)
         
@@ -100,17 +111,18 @@ def leave_work():
     driver.quit()
 
 
-schedule.every().monday.at(START_TIME[0]).do(go_to_work)
-schedule.every().tuesday.at(START_TIME[0]).do(go_to_work)
-schedule.every().wednesday.at(START_TIME[0]).do(go_to_work)
-schedule.every().thursday.at(START_TIME[0]).do(go_to_work)
-schedule.every().friday.at(START_TIME[0]).do(go_to_work)
 
-schedule.every().monday.at(END_TIME[0]).do(leave_work)
-schedule.every().tuesday.at(END_TIME[0]).do(leave_work)
-schedule.every().wednesday.at(END_TIME[0]).do(leave_work)
-schedule.every().thursday.at(END_TIME[0]).do(leave_work)
-schedule.every().friday.at(END_TIME[0]).do(leave_work)
+# schedule.every().monday.at(START_TIME[0]).do(go_to_work)
+# schedule.every().tuesday.at(START_TIME[0]).do(go_to_work)
+# schedule.every().wednesday.at(START_TIME[0]).do(go_to_work)
+# schedule.every().thursday.at(START_TIME[0]).do(go_to_work)
+# schedule.every().friday.at(START_TIME[0]).do(go_to_work)
+
+# schedule.every().monday.at(END_TIME[0]).do(leave_work)
+# schedule.every().tuesday.at(END_TIME[0]).do(leave_work)
+# schedule.every().wednesday.at(END_TIME[0]).do(leave_work)
+# schedule.every().thursday.at(END_TIME[0]).do(leave_work)
+# schedule.every().friday.at(END_TIME[0]).do(leave_work)
 
 # schedule.every().monday.at(START_TIME[1]).do(go_to_work)
 # schedule.every().tuesday.at(START_TIME[1]).do(go_to_work)
@@ -126,10 +138,12 @@ schedule.every().friday.at(END_TIME[0]).do(leave_work)
 
 #참고 : https://jimmy-ai.tistory.com/451
 
-while True:
-    try:
-        schedule.run_pending()
-    except:
-        pass
-    sleep(1)
+# while True:
+#     try:
+#         print(1)
+#         schedule.run_pending()
+#     except:
+#         pass
+#     sleep(1)
 
+go_to_work()

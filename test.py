@@ -1,13 +1,11 @@
-import schedule
-import time
+from 출퇴근 import *
+import schedule 
 
-def job():
-    print("자연, 우리의 미래...")
-
-schedule.every().tuesday.at("19:51").do(job)
+schedule.every().wednesday.at("13:15").do(go_to_work)
 
 while True:
-    schedule.run_pending()
-    time.sleep(1)
-
-
+    try:
+        schedule.run_pending()
+    except:
+        pass
+    sleep(1)
